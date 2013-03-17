@@ -1,3 +1,12 @@
+/*
+ * Multi-scroll example application.
+ *
+ * This is based off of a Sifteo SDK example which implements
+ * scrolling on a single cube.
+ *
+ * Adrian Chadd <adrian@freebsd.org>
+ */
+
 #ifndef	__SCROLLOBJ_H__
 #define	__SCROLLOBJ_H__
 
@@ -14,11 +23,34 @@ class ScrollObj {
 	public:
 		void init(CubeID cube)
 		{
-			/* Just default to BG0 for now */
-			vid.initMode(BG0);
 			vid.attach(cube);
 			cur_x = 0.0;
 			prev_xt = 0;
+		}
+
+		void
+		pictureAttach()
+		{
+
+			/* Just default to BG0 for now */
+			vid.initMode(BG0);
+		}
+
+		void
+		displayAttachPicture()
+		{
+			vid.initMode(BG0_ROM);
+			vid.bg0rom.fill(vec(0,0), vec(16,16), BG0ROMDrawable::SOLID_BG);
+			vid.bg0rom.text(vec(1,1), "Hold on!", BG0ROMDrawable::BLUE);
+			vid.bg0rom.text(vec(1,14), "Adding Cube...", BG0ROMDrawable::BLUE);
+		}
+
+		void displayLoadGraph(unsigned p)
+		{
+			vid.bg0rom.hBargraph(
+			    vec(0, 4),
+			    p,
+			    BG0ROMDrawable::ORANGE, 8);
 		}
 
 		void drawPicture()
